@@ -1,0 +1,17 @@
+# docker-compose.yml
+services:
+  # Notre API
+  api:
+    build: . # Utilise le Dockerfile du dossier
+    ports:
+      - '${PORT}:${PORT}' # Port local : Port conteneur
+    environment:
+      - DB_URL=${DB_URL}
+    depends_on:
+      - db # Attend que 'db' soit prêt
+
+  # Notre base de données
+  db:
+    image: mongo:7 # Image MongoDB officielle
+    ports:
+      - '27017:27017' # Pour accéder à MongoDB
