@@ -1,17 +1,21 @@
-# docker-compose.yml
 services:
-  # Notre API
-  api:
-    build: . # Utilise le Dockerfile du dossier
-    ports:
-      - '${PORT}:${PORT}' # Port local : Port conteneur
-    environment:
-      - DB_URL=${DB_URL}
-    depends_on:
-      - db # Attend que 'db' soit prêt
-
-  # Notre base de données
   db:
-    image: mongo:7 # Image MongoDB officielle
+    image: postgres:15-alpine
+    container_name: n3-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: n3_db
     ports:
-      - '27017:27017' # Pour accéder à MongoDB
+      - "5432:5432"
+
+  api:
+    build: .
+    container_name: n3-api-service
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/n3_db
+    depends_on:
+      - db
