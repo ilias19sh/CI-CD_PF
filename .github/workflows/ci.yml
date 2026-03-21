@@ -55,4 +55,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/ilias19sh/CI-CD_PF:latest
+          tags: ghcr.io/ilias19sh/ci-cd_pf:latest
