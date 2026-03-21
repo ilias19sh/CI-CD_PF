@@ -2,7 +2,10 @@ const request = require('supertest');
 const app = require('./app');
 
 describe('API Ressources', () => {
-  
+  beforeEach(() => {
+    app.resetTestState();
+  });
+
   it('GET /health - devrait retourner 200 OK', async () => {
     const res = await request(app).get('/health');
     expect(res.statusCode).toBe(200);

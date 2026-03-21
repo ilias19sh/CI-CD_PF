@@ -4,13 +4,23 @@ app.use(express.json());
 
 const PORT = 3000;
 
-let resources = [
+const INITIAL_RESOURCES = [
   { id: 1, name: "Ordinateur Portable", description: "MacBook Pro M3" },
   { id: 2, name: "Clavier Mécanique", description: "Keychron K2 V2" },
   { id: 3, name: "Souris Sans Fil", description: "Logitech MX Master 3S" },
   { id: 4, name: "Écran 4K", description: "Dell UltraSharp 27" },
   { id: 5, name: "Casque Audio", description: "Sony WH-1000XM5" }
 ];
+
+let resources = INITIAL_RESOURCES.map((r) => ({ ...r }));
+
+function resetTestState() {
+  resources = INITIAL_RESOURCES.map((r) => ({ ...r }));
+}
+
+if (process.env.NODE_ENV === 'test') {
+  app.resetTestState = resetTestState;
+}
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: "OK", timestamp: new Date().toISOString() });
