@@ -2,6 +2,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 
 export default [
+  { ignores: ["**/node_modules/**", "**/generated/**", "prisma.config.ts"] },
   {
     files: ["**/*.js"],
     languageOptions: { 

@@ -1,17 +1,26 @@
-# docker-compose.yml
 services:
-  # Notre API
   api:
-    build: . # Utilise le Dockerfile du dossier
+    build: .
     ports:
-      - '${PORT}:${PORT}' # Port local : Port conteneur
+      - '3000:3000'
     environment:
-      - DB_URL=${DB_URL}
+      DATABASE_URL: postgresql://app:app@db:5432/app?schema=public
+      PORT: '3000'
+      NODE_ENV: production
     depends_on:
-      - db # Attend que 'db' soit prêt
+      db:
+        condition: service_healthy
 
-  # Notre base de données
   db:
-    image: mongo:7 # Image MongoDB officielle
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
     ports:
-      - '27017:27017' # Pour accéder à MongoDB
+      - '55432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U app -d app']
+      interval: 5s
+      timeout: 5s
+      retries: 10

@@ -1,24 +1,35 @@
 {
   "name": "ci-cd_pf",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API REST inventaire + CI/CD (N3)",
+  "main": "app.js",
   "scripts": {
+    "postinstall": "prisma generate",
+    "start": "node app.js",
     "test": "jest",
-    "lint" :"eslint ."
+    "lint": "eslint .",
+    "db:migrate": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:seed": "prisma db seed",
+    "db:studio": "prisma studio"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^4.21.2"
+    "@prisma/adapter-pg": "7.5.0",
+    "@prisma/client": "7.5.0",
+    "dotenv": "17.3.1",
+    "express": "^4.21.2",
+    "pg": "8.20.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.0.2",
     "globals": "^17.4.0",
     "jest": "^30.2.0",
+    "prisma": "7.5.0",
     "supertest": "^7.2.2"
   }
 }
